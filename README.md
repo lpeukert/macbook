@@ -12,4 +12,5 @@ Download the script:
 curl --remote-name https://raw.githubusercontent.com/lpeukert/macbook/master/ivx_tools.sh
 
 Install via URL
+
 curl -s https://raw.githubusercontent.com/lpeukert/macbook/master/ivx_tools.sh | bash
