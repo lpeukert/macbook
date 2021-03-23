@@ -1,2 +1,2 @@
-# macbook
+# Macbook
 Macbook standard installation
