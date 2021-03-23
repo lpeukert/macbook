@@ -13,4 +13,4 @@ curl --remote-name https://raw.githubusercontent.com/lpeukert/macbook/master/ivx
 
 Install via URL
 
-curl -s https://raw.githubusercontent.com/lpeukert/macbook/master/ivx_tools.sh | bash
+bash -c "$(curl -s https://raw.githubusercontent.com/lpeukert/macbook/master/ivx_tools.sh)"
