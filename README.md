@@ -3,7 +3,7 @@ Macbook standard installation
 
 Macbook is a script to set up a macOS laptop with some standard apps.
 
-It will install xcode command line tools, homebrew and some packages like google-chrome, keybase, tunnelblick, slack etc.
+It will install xcode command line tools, homebrew and some packages like google-chrome, keybase, tunnelblick, slack etc. <br>
 The script will check if the macbook is intel or silicon-based
 
 Install directly via URL: <br>
