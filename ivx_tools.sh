@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.92 - Update 09/Apr/2021
+# Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.93 - Update 09/Apr/2021
 ARCH=$(uname -m)
-echo  "Installing Xcode CLI tools now (please wait) ..."
+echo  -e "\x1B[1;47m Installing Xcode CLI tools now (please wait) ... \x1B[0m"
 xcode-select --install
 read -rp "Have you completed the Xcode CLI tools install (y/n)? " xcode_response
 if [[ "$xcode_response" != "y" ]]; then
@@ -9,7 +9,7 @@ if [[ "$xcode_response" != "y" ]]; then
   exit 1
 fi
 if [[ "$ARCH" == "arm64" ]]; then
-  echo  "Installing Rosetta 2 Framework now (please wait) ..."
+  echo  -e "\x1B[1;47m Installing Rosetta 2 Framework now (please wait) ...\x1B[0m"
   /usr/sbin/softwareupdate --install-rosetta --agree-to-license
   read -rp "Have you completed the Rosetta install (y/n)? " rosetta_response
   if [[ "$rosetta_response" != "y" ]]; then
@@ -18,13 +18,13 @@ if [[ "$ARCH" == "arm64" ]]; then
   fi
 fi
 if ! command -v brew > /dev/null; then
-  echo  "Installing Homebrew now (please wait) ..."
+  echo  -e "\x1B[1;47m Installing Homebrew now (please wait) ... \x1B[0m"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
 fi
-echo "Upgrading homebrew now (please wait) ..."
+echo -e "\x1B[1;47m Upgrading homebrew now (please wait) ... \x1B[0m"
 brew update && brew upgrade && brew cleanup
-echo "Install packages now (please wait) ..."
+echo -e "\x1B[1;47m Install packages now (please wait) ... \x1B[0m"
 for package in git mpv wget ; do
   brew install "$package"
 done
