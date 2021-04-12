@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.93 - Update 09/Apr/2021
+# Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.95 - Update 12/Apr/2021
 ARCH=$(uname -m)
 echo  -e "\x1B[1;47m Installing Xcode CLI tools now (please wait) ... \x1B[0m"
 xcode-select --install
