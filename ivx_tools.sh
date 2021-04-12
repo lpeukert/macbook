@@ -29,7 +29,17 @@ for package in git mpv wget ; do
   brew install "$package"
 done
 brew tap homebrew/cask
-for package in firefox keybase google-chrome iterm2 slack tunnelblick bitwarden; do
+for package in firefox keybase google-chrome iterm2 slack tunnelblick bitwarden authy; do
   brew install --cask "$package"
 done
-echo "All done. Have a nice day! You can find the installed programs under Applications"
+echo "What was installed:"
+echo "- Google Chrome - Browser"
+echo "- FireFox - Browser"
+echo "- Keybase - Secure File & Chat"
+echo "- iTerm2 - Terminal"
+echo "- slack - Main Communication Tool"
+echo "- Tunnelblick - VPN Client"
+echo "- Bitwarden - Password Manager"
+echo "- Authy - 2FA Two-factor authentication"
+echo "All done. You can find the installed programs under Applications"
+echo "Have a nice day!"
