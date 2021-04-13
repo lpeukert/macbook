@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.95 - Update 12/Apr/2021
 ARCH=$(uname -m)
+
+if [[ "$ARCH" == "arm64" ]]; then
+  HOMEBREW_BIN=/opt/homebrew/bin/brew
+else
+  HOMEBREW_BIN=/usr/local/bin/brew
+fi
+
 echo  -e "\x1B[1;47m Installing Xcode CLI tools now (please wait) ... \x1B[0m"
 xcode-select --install
 read -rp "Have you completed the Xcode CLI tools install (y/n)? " xcode_response
@@ -20,18 +27,20 @@ fi
 if ! command -v brew > /dev/null; then
   echo  -e "\x1B[1;47m Installing Homebrew now (please wait) ... \x1B[0m"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
 fi
+
 echo -e "\x1B[1;47m Upgrading homebrew now (please wait) ... \x1B[0m"
-brew update && brew upgrade && brew cleanup
+$HOMEBREW_BIN update && $HOMEBREW_BIN upgrade && $HOMEBREW_BIN cleanup
 echo -e "\x1B[1;47m Install packages now (please wait) ... \x1B[0m"
 for package in git mpv wget ; do
-  brew install "$package"
+  $HOMEBREW_BIN install "$package"
 done
-brew tap homebrew/cask
+
+$HOMEBREW_BIN tap homebrew/cask
 for package in firefox keybase google-chrome iterm2 slack tunnelblick bitwarden authy; do
-  brew install --cask "$package"
+  $HOMEBREW_BIN install --cask "$package"
 done
+
 echo "What was installed:"
 echo "- Google Chrome - Browser"
 echo "- FireFox - Browser"
