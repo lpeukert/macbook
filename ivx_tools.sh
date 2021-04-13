@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.95 - Update 12/Apr/2021
+# Autor: Lutz Peukert - IVX - Campus-Ops 22/Mar/2021 v0.97 - Update 13/Apr/2021 Thx to K.Forsthövel
 ARCH=$(uname -m)
 
 if [[ "$ARCH" == "arm64" ]]; then
@@ -27,6 +27,7 @@ fi
 if ! command -v brew > /dev/null; then
   echo  -e "\x1B[1;47m Installing Homebrew now (please wait) ... \x1B[0m"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "$(eval "$($HOMEBREW_BIN shellenv)")" >> "$HOME/.zprofile"
 fi
 
 echo -e "\x1B[1;47m Upgrading homebrew now (please wait) ... \x1B[0m"
