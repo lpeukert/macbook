@@ -64,7 +64,7 @@ brew update && brew upgrade
 # 6. Pakete installieren (CLI & Cask getrennt)
 echo -e "${BOLD_WHITE} Installing Packages... ${NC}"
 CLI_TOOLS=(git mpv wget)
-CASKS=(firefox keybase google-chrome iterm2 slack tunnelblick bitwarden authy)
+CASKS=(firefox keybase google-chrome iterm2 slack tunnelblick bitwarden pearcleaner)
 
 for pkg in "${CLI_TOOLS[@]}"; do
     if ! brew list "$pkg" &>/dev/null; then
