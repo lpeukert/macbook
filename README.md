@@ -3,7 +3,19 @@ Macbook standard installation
 
 Macbook is a script to set up a macOS laptop with some standard apps for business use.
 
-It will install xcode command line tools, homebrew and some packages like google-chrome, keybase, tunnelblick, slack etc. <br>
+It will install xcode command line tools, homebrew and some packages.
+
+What will be installed: 
+  ✘ Firefox: browser <br>
+  ✘ Keybase: a secure, open-source messaging and file-sharing platform  <br>
+  ✘ Google Chrome: browser <br>
+  ✘ iterm2: feature-rich terminal emulator  <br>
+  ✘ Slack: cloud-based messaging and collaboration platform <br>
+  ✘ Tunnelblick: VPN for securely connection  <br>
+  ✘ Bitwarden: a highly secure, open-source password manager <br>
+  ✘ Pearcleaner: open-source uninstaller <br>
+  ✘ Bitwarden-CLI: Bitwarden command-line interface <br>
+  
 The script will check if the macbook is intel or silicon-based
 
 Install directly via URL: <br>
