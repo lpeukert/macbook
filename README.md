@@ -5,7 +5,8 @@ Macbook is a script to set up a macOS laptop with some standard apps for busines
 
 It will install xcode command line tools, homebrew and some packages.
 
-What will be installed: 
+What will be installed: <br>
+
   ✘ Firefox: browser <br>
   ✘ Keybase: a secure, open-source messaging and file-sharing platform  <br>
   ✘ Google Chrome: browser <br>
