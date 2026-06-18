@@ -21,7 +21,14 @@ echo -e "   🚀 MacBook Initial-Setup gestartet"
 echo -e "============================================${NC}"
 
 # ==========================================
-# 1. Architektur prüfen & Homebrew Check
+# 0. Administrator-Rechte sichern
+# ==========================================
+log "Bitte gib dein Mac-Passwort ein (wird für Homebrew benötigt):"
+# Sichert die sudo-Rechte vorab, damit die Installation später nicht blockiert
+sudo -v || { error "Administrator-Rechte konnten nicht erlangt werden. Abbruch."; exit 1; }
+
+# ==========================================
+# 1. Architektur prüfen & Pfad setzen
 # ==========================================
 ARCH=$(uname -m)
 
@@ -39,25 +46,34 @@ if [ -f "$BREW_PATH" ] && ! command -v brew &> /dev/null; then
     eval "$($BREW_PATH shellenv)"
 fi
 
-# Wenn brew immer noch nicht gefunden wird, installieren
+# ==========================================
+# 2. Homebrew zwingend installieren
+# ==========================================
 if ! command -v brew &> /dev/null; then
-    log "Homebrew ist nicht installiert. Installation startet..."
+    log "Homebrew ist nicht installiert. Installation startet jetzt..."
+    # Installation starten (NONINTERACTIVE unterdrückt die "Press Return"-Abfrage)
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     
-    # Direkt nach der Installation für das restliche Skript verfügbar machen
-    eval "$($BREW_PATH shellenv)"
+    # NACHPRÜFUNG: Wurde Homebrew wirklich erfolgreich installiert?
+    if [ -f "$BREW_PATH" ]; then
+        eval "$($BREW_PATH shellenv)"
+        success "Homebrew wurde erfolgreich installiert!"
+    else
+        error "Die Installation von Homebrew ist fehlgeschlagen! Das Setup wird abgebrochen."
+        exit 1 # Skript bricht hier hart ab
+    fi
 else
     success "Homebrew ist bereits vorhanden und einsatzbereit."
 fi
 
 # ==========================================
-# 2. Homebrew Update
+# 3. Homebrew Update
 # ==========================================
 log "Homebrew-Repositories werden aktualisiert..."
 brew update > /dev/null
 
 # ==========================================
-# 3. App-Installation & Versionsprüfung
+# 4. App-Installation & Versionsprüfung
 # ==========================================
 APPS=(
     firefox
@@ -74,21 +90,17 @@ APPS=(
 echo -e "\n${BLUE}Starte App-Installation & Versionsprüfung...${NC}"
 
 for app in "${APPS[@]}"; do
-    # Prüfen, ob die App bereits über Homebrew installiert ist
     if brew list --cask "$app" &> /dev/null || brew list "$app" &> /dev/null; then
         
-        # Versionen auslesen
         INSTALLED_VERSION=$(brew list --versions "$app" | awk '{print $2}' | head -n 1)
         AVAILABLE_VERSION=$(brew info "$app" 2>/dev/null | head -n 1 | awk '{print $2}')
         
-        # Fall 1: Versionen sind exakt gleich
         if [ "$INSTALLED_VERSION" == "$AVAILABLE_VERSION" ]; then
             success ">>> '$app' ist auf dem neuesten Stand (Version $INSTALLED_VERSION). Überspringe..."
             SUMMARY_LIST+=("  ${GREEN}✔${NC} ${app}: ${YELLOW}${INSTALLED_VERSION}${NC} (Bereits aktuell)")
             continue
         fi
         
-        # Fall 2 & 3: Versionen unterscheiden sich
         IS_OUTDATED=$(brew outdated "$app" 2>/dev/null)
         
         if [ -z "$IS_OUTDATED" ]; then
@@ -109,7 +121,6 @@ for app in "${APPS[@]}"; do
         fi
     fi
 
-    # Fall 4: App ist laut Homebrew noch nicht installiert
     log "Installiere '$app'..."
     
     if brew install --cask "$app" --quiet 2>/dev/null || brew install "$app" --quiet 2>/dev/null; then
@@ -117,7 +128,6 @@ for app in "${APPS[@]}"; do
         success "'$app' wurde erfolgreich installiert."
         SUMMARY_LIST+=("  ${GREEN}★${NC} ${app}: ${YELLOW}${FINAL_VERSION}${NC} (Neu installiert)")
     else
-        # POST-CHECK: Prüfung, ob App manuell existiert oder mit Warnung installiert wurde
         if brew list --versions "$app" &>/dev/null; then
             FINAL_VERSION=$(brew list --versions "$app" | awk '{print $2}' | head -n 1)
             warn ">>> '$app' warf einen Fehler, wurde aber in Homebrew registriert (Version $FINAL_VERSION)."
@@ -130,7 +140,7 @@ for app in "${APPS[@]}"; do
 done
 
 # ==========================================
-# 4. Finale Zusammenfassung
+# 5. Finale Zusammenfassung
 # ==========================================
 echo -e "\n${BLUE}============================================"
 echo -e "   📋 Zusammenfassung der Installation"
